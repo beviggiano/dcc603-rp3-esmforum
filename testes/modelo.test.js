@@ -34,3 +34,9 @@ test('Testando cadastro de resposta e contagem', () => {
   expect(numRespostas).toBe(1);
 });
 
+test('Testando recuperação de pergunta por ID', () => {
+  const id = modelo.cadastrar_pergunta('Qual a cor do céu?');
+  const pergunta = modelo.get_pergunta(id);
+  expect(pergunta.texto).toBe('Qual a cor do céu?');
+});
+

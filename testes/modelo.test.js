@@ -3,7 +3,6 @@ const modelo = require('../modelo.js');
 
 beforeEach(() => {
   bd.reconfig('./bd/esmforum-teste.db');
-  // limpa dados de todas as tabelas
   bd.exec('delete from perguntas', []);
   bd.exec('delete from respostas', []);
 });
@@ -21,5 +20,17 @@ test('Testando cadastro de três perguntas', () => {
   expect(perguntas[0].texto).toBe('1 + 1 = ?');
   expect(perguntas[1].texto).toBe('2 + 2 = ?');
   expect(perguntas[2].num_respostas).toBe(0);
-  expect(perguntas[1].id_pergunta).toBe(perguntas[2].id_pergunta-1);
+  expect(perguntas[1].id_pergunta).toBe(perguntas[2].id_pergunta - 1);
 });
+
+test('Testando cadastro de resposta e contagem', () => {
+  const idPergunta = modelo.cadastrar_pergunta('Qual a capital do Brasil?');
+  const idResposta = modelo.cadastrar_resposta(idPergunta, 'Brasília');
+  const respostas = modelo.get_respostas(idPergunta);
+  expect(respostas.length).toBe(1);
+  expect(respostas[0].texto).toBe('Brasília');
+
+  const numRespostas = modelo.get_num_respostas(idPergunta);
+  expect(numRespostas).toBe(1);
+});
+

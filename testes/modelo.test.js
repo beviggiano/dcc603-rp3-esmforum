@@ -40,3 +40,13 @@ test('Testando recuperação de pergunta por ID', () => {
   expect(pergunta.texto).toBe('Qual a cor do céu?');
 });
 
+test('Testando reconfiguração de BD (mock)', () => {
+  const fake_bd = {
+    query: jest.fn(),
+    queryAll: jest.fn(),
+    exec: jest.fn()
+  };
+  modelo.reconfig_bd(fake_bd);
+  // apenas verifica que não lança erro
+  expect(typeof modelo.cadastrar_pergunta).toBe('function');
+});
